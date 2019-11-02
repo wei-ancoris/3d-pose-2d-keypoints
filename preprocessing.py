@@ -1,4 +1,5 @@
 import numpy as np
+from matrix_transformations import rot_mat
 
 def normalize_data(data, mode):
     """
@@ -83,7 +84,7 @@ def augment_rotations(data, duplicates=720):
         a += (a_range[1] - a_range[0]) / duplicates
         b += 1
         c += (c_range[1] - c_range[0]) / duplicates
-        R = rotation_matrix(a,b,c)
+        R = rot_mat(a,b,c)
         for j in range(data.shape[0]):
             variants[i][j] = R.dot(data[j].T).T
     full = variants.reshape((variants.shape[0] * variants.shape[1], variants.shape[2], variants.shape[3]))
@@ -140,6 +141,7 @@ def rotation_matrix(a_degrees, b_degrees, c_degrees):
         [np.sin(c),np.cos(c),0],
         [0,0,1],
     ])
+
 
     XY = X_mat(a).dot(Y_mat(b))
     XYZ = XY.dot(Z_mat(c))
